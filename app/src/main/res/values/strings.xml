@@ -1,0 +1,103 @@
+<resources>
+    <string name="app_name">Chat Messenger</string>
+
+    #Login strings
+    <string name="login_welcome">Decided to return? Welcome back to the chat</string>
+    <string name="login_text">Login</string>
+    <string name="login_description">User login</string>
+    <string name="password_text">Password</string>
+    <string name="password_description">User password</string>
+    <string name="password_remainder">Forgot password?</string>
+    <string name="login_button_text">Sign in</string>
+    <string name="signup_info_text">Do not have an account yet?</string>
+    <string name="signup_button_text">Sign up</string>
+    <string name="social_picking">Continue with</string>
+    <string name="login_with_facebook">Login with facebook</string>
+    <string name="login_with_instagram">Login with instagram</string>
+    <string name="login_with_google">Login with google</string>
+
+    #Signup strings
+    <string name="signup_welcome">Still not with us? Register and join the chat</string>
+    <string name="email_text">Email</string>
+    <string name="email_description">User email</string>
+    <string name="password_repeat_text">Password repeat</string>
+    <string name="password_repeat_description">User password repeat</string>
+    <string name="login_info_text">Already have an account?</string>
+
+    #Users array
+    <string-array name="Users_list">
+        <item>Admin</item>
+        <item>User</item>
+        <item>Roman</item>
+        <item>Daddy</item>
+        <item>Julia</item>
+    </string-array>
+
+    #Phone array
+    <string-array name="Phone_list">
+        <item>+380970123456</item>
+        <item>+380951122334</item>
+        <item>+380983371711</item>
+        <item>+380992776875</item>
+        <item>+380965554444</item>
+    </string-array>
+
+    #Email array
+    <string-array name="Emails_list">
+        <item>admin@gmail.com</item>
+        <item>usr@post.ua</item>
+        <item>roman@gmail.com</item>
+        <item>dad@ukr.net</item>
+        <item>jul@masyanya.ua</item>
+    </string-array>
+
+    #Passwords array
+    <string-array name="Passwords_list">
+        <item>adm</item>
+        <item>1234</item>
+        <item>rom123</item>
+        <item>d1a2d3</item>
+        <item>juljul</item>
+    </string-array>
+
+    #Dialog forgot password strings
+    <string name="forgot_password_title">Restoring password</string>
+    <string name="forgot_password_text">Enter the email below to recover Your password.</string>
+    <string name="forgot_password_hint">Email</string>
+    <string name="forgot_password_Ok_Button_text">Ok</string>
+    <string name="forgot_password_Cancel_Button_text">Cancel</string>
+
+    #Main activity - Chat
+    <string name="users_button">Users</string>
+    <string name="chat_button">Chat</string>
+    <string name="preference_button">Pref</string>
+
+    #Users fragment
+    <string name="users_title">Users list</string>
+    <string name="user_photo">User photo</string>
+    <string name="user_nickname">User nickname</string>
+    <string name="user_phone">User phone</string>
+    <string name="user_email">User email</string>
+
+    #Chat fragment
+    <string name="chat_title">Chat</string>
+    <string name="chat_send_button">Send</string>
+    <string name="chat_photo">User photo</string>
+    <string name="chat_nickname">User nickname</string>
+    <string name="chat_message">Message</string>
+    <string name="chat_time">Time</string>
+
+    #Preferences fragment
+    <string name="pref_title">Preferences</string>
+    <string name="pref_nickname_label_text">Change Nickname</string>
+    <string name="pref_change_button_text">Change</string>
+    <string name="pref_avatar_content_description">User avatar</string>
+    <string name="pref_avatar_label_text">Change Avatar</string>
+    <string name="pref_phone_label_text">Change Phone</string>
+    <string name="pref_email_label_text">Change Email</string>
+    <string name="pref_password_label_text">Change Password</string>
+    <string name="pref_old_password_hint">Old password</string>
+    <string name="pref_new_password_hint">New password</string>
+    <string name="pref_repeat_new_password_hint">Repeat new password</string>
+
+</resources>

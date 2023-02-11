@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/window_background"
+    tools:context=".SigninActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/logo_height"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_chat"
+            android:textAlignment="center"
+            tools:ignore="ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/light_blue"
+            android:textSize="@dimen/app_name_height"
+            android:textStyle="italic"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/input_marginX"
+            android:layout_marginTop="@dimen/input_marginY"
+            android:layout_marginRight="@dimen/input_marginX"
+            android:text="@string/login_welcome"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/login_welcome_text_height"
+            android:textStyle="italic"
+            tools:ignore="TextContrastCheck" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_marginY"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="@dimen/image_width"
+                android:layout_height="@dimen/image_width"
+                android:layout_marginLeft="@dimen/input_marginX"
+                android:layout_marginRight="@dimen/input_small_marginX"
+                android:layout_weight="0"
+                android:contentDescription="@string/login_description"
+                app:srcCompat="@drawable/user_80"
+                tools:ignore="ImageContrastCheck" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_width"
+                android:layout_marginLeft="@dimen/input_small_marginX"
+                android:layout_marginRight="@dimen/input_marginX">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signin_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/input_background"
+                    android:hint="@string/login_text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/login_button_text"
+                    tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_marginY"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="@dimen/image_width"
+                android:layout_height="@dimen/image_width"
+                android:layout_marginLeft="@dimen/input_marginX"
+                android:layout_marginRight="@dimen/input_small_marginX"
+                android:layout_weight="0"
+                android:contentDescription="@string/password_description"
+                app:srcCompat="@drawable/password_80"
+                tools:ignore="ImageContrastCheck" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_width"
+                android:layout_marginLeft="@dimen/input_small_marginX"
+                android:layout_marginRight="@dimen/input_marginX"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/signin_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/input_background"
+                    android:hint="@string/password_text"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/login_button_text"
+                    tools:ignore="TextContrastCheck" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/forgot_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/input_marginX"
+            android:layout_marginTop="@dimen/password_remainder_marginY"
+            android:layout_marginRight="@dimen/input_marginX"
+            android:text="@string/password_remainder"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="@dimen/signup_info_text"
+            android:textStyle="italic" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signin_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/login_button_height"
+            android:layout_marginLeft="@dimen/input_marginX"
+            android:layout_marginTop="@dimen/input_marginY"
+            android:layout_marginRight="@dimen/input_marginX"
+            android:backgroundTint="@color/input_background"
+            android:text="@string/login_button_text"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/login_button_text"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/button_corner_radius" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_marginY"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/input_marginX"
+                android:layout_weight="1"
+                android:text="@string/signup_info_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/signup_info_text"
+                android:textStyle="italic"
+                tools:ignore="TextContrastCheck" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signup_relocate"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/login_button_height"
+                android:layout_marginRight="@dimen/input_marginX"
+                android:layout_weight="1"
+                android:backgroundTint="@color/input_background"
+                android:text="@string/signup_button_text"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="@dimen/login_button_text"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/button_corner_radius" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_marginY"
+            android:text="@string/social_picking"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/signup_info_text"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/password_remainder_marginY"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signin_facebook"
+                android:layout_width="@dimen/login_button_height"
+                android:layout_height="@dimen/login_button_height"
+                android:layout_marginLeft="@dimen/social_marginX"
+                android:layout_marginRight="@dimen/input_marginX"
+                android:layout_weight="1"
+                android:contentDescription="@string/login_with_facebook"
+                app:backgroundTint="@color/window_background"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:icon="@drawable/facebook_round_40"
+                app:iconGravity="textTop"
+                app:iconTint="@null"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signin_instagram"
+                android:layout_width="@dimen/login_button_height"
+                android:layout_height="@dimen/login_button_height"
+                android:layout_marginLeft="@dimen/input_marginX"
+                android:layout_marginRight="@dimen/input_marginX"
+                android:layout_weight="1"
+                android:backgroundTint="@color/window_background"
+                android:contentDescription="@string/login_with_instagram"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:icon="@drawable/instagram_40"
+                app:iconGravity="textTop"
+                app:iconTint="@null"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signin_google"
+                android:layout_width="@dimen/login_button_height"
+                android:layout_height="@dimen/login_button_height"
+                android:layout_marginLeft="@dimen/input_marginX"
+                android:layout_marginRight="@dimen/social_marginX"
+                android:layout_weight="1"
+                android:backgroundTint="@color/window_background"
+                android:contentDescription="@string/login_with_google"
+                app:cornerRadius="@dimen/button_corner_radius"
+                app:icon="@drawable/google_40"
+                app:iconGravity="textTop"
+                app:iconTint="@null"
+                app:strokeColor="@color/white"
+                app:strokeWidth="1dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

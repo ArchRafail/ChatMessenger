@@ -1,0 +1,58 @@
+[
+  {
+    "email": "admin@gmail.com",
+    "login": "Admin",
+    "nickname": "Admin",
+    "password": "adm",
+    "phone": "+380970123456",
+    "photoResource": 2131230834
+  },
+  {
+    "email": "usr@post.ua",
+    "login": "User",
+    "nickname": "Panas",
+    "password": "1234",
+    "phone": "+380951234567",
+    "photoResource": 0
+  },
+  {
+    "email": "roman@gmail.com",
+    "login": "Roman",
+    "nickname": "Roman",
+    "password": "rom123",
+    "phone": "+380983371711",
+    "photoResource": 2131230940
+  },
+  {
+    "email": "dad@ukr.net",
+    "login": "Daddy",
+    "nickname": "Daddy",
+    "password": "d1a2d3",
+    "phone": "+380992776875",
+    "photoResource": 2131230847
+  },
+  {
+    "email": "jul@masyanya.ua",
+    "login": "Julia",
+    "nickname": "Julia",
+    "password": "juljul",
+    "phone": "+380965554444",
+    "photoResource": 0
+  },
+  {
+    "email": "cart@gmail.com",
+    "login": "Cartel",
+    "nickname": "Cartel",
+    "password": "cart",
+    "phone": "none",
+    "photoResource": 0
+  },
+  {
+    "email": "bob@trust.com",
+    "login": "Bombik",
+    "nickname": "Bombik",
+    "password": "bob",
+    "phone": "none",
+    "photoResource": 0
+  }
+]

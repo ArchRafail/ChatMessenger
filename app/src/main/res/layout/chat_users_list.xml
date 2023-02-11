@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/part_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/users_fragment_paddingX"
+    android:paddingEnd="@dimen/users_fragment_paddingX"
+    android:paddingTop="@dimen/users_fragment_paddingY"
+    android:paddingBottom="@dimen/users_fragment_paddingY" >
+
+    <ImageView
+        android:id="@+id/user_photo"
+        android:layout_width="@dimen/users_list_photo_width"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/user_photo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/user_nickname"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/users_list_text_padding_left">
+
+        <TextView
+            android:id="@+id/user_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@string/user_nickname"
+            android:textSize="@dimen/users_list_login_text_height"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/users_list_text_marginY"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@string/user_email"
+            android:textSize="@dimen/users_list_email_phone_height" />
+
+        <TextView
+            android:id="@+id/user_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/users_list_text_marginY"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@string/user_phone"
+            android:textSize="@dimen/users_list_email_phone_height" />
+    </LinearLayout>
+
+</LinearLayout>
