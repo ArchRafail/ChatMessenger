@@ -10,16 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.chatmessenger.R
 import com.example.chatmessenger.chat_user.ChatUser
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.chatmessenger.database.DBHelper
 import java.io.File
-import java.io.FileReader
 
 
 class ChatMessageAdapter(context: Context?, private val layout: Int, private val messages: List<ChatMessage>)
     :ArrayAdapter<ChatMessage?>(context!!, layout, messages) {
 
-    private val TAG = "ChatMessageAdapter"
     private val inflater: LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -30,13 +27,9 @@ class ChatMessageAdapter(context: Context?, private val layout: Int, private val
         val timeView = view.findViewById<TextView>(R.id.message_time)
         val message = messages[position]
 
-        val gson = Gson()
-        val arrayListChatUserType = object : TypeToken<ArrayList<ChatUser>>() {}.type
-        val file = File(context.filesDir.path, "users.json")
-        var users :ArrayList<ChatUser> = ArrayList()
-        if (file.exists()) {
-            users = gson.fromJson(FileReader(file), arrayListChatUserType)
-        }
+        val dBHelper: DBHelper = DBHelper.getInstance(context)
+        val users = dBHelper.allUsers
+
         var user : ChatUser? = null
         for (i in users.indices) {
             if (users[i].getLogin() == message.getLogin()) {
@@ -46,12 +39,13 @@ class ChatMessageAdapter(context: Context?, private val layout: Int, private val
 
         val defaultPhoto = "blank_profile_picture_120"
         val fileName = user?.getLogin()?.lowercase()
+        val drawableIdentifier = context.resources.getIdentifier(fileName, "drawable", context.packageName)
         val imgFile = File(context.filesDir.path, "$fileName.jpg")
         if (imgFile.exists()) {
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             pictureView.setImageBitmap(myBitmap)
-        } else if (user?.getPhotoResource()!! > 0) {
-            pictureView.setImageResource(user.getPhotoResource())
+        } else if (drawableIdentifier > 0) {
+            pictureView.setImageResource(drawableIdentifier)
         } else {
             pictureView.setImageResource(context.resources
                 .getIdentifier(defaultPhoto, "drawable", context.packageName))

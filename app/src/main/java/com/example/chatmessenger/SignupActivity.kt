@@ -1,6 +1,7 @@
 package com.example.chatmessenger
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,11 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.chatmessenger.action.Signup
 import com.example.chatmessenger.chat_user.ChatUser
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import java.io.File
-import java.io.FileReader
+import com.example.chatmessenger.database.DBHelper
+
 
 class SignupActivity : AppCompatActivity() {
 
@@ -41,34 +39,19 @@ class SignupActivity : AppCompatActivity() {
         val password = findViewById<TextView>(R.id.signup_password).text.toString()
         val passwordRepeat = findViewById<TextView>(R.id.signup_repeat_password).text.toString()
 
-        users = ArrayList()
-        val gson = Gson()
-        val arrayListChatUserType = object : TypeToken<ArrayList<ChatUser>>() {}.type
-        val fileUsers = File(this.filesDir.path, "users.json")
-
-        if (fileUsers.exists()) {
-            users = gson.fromJson(FileReader(fileUsers), arrayListChatUserType)
-        } else {
-            fileUsers.createNewFile()
-        }
+        val dBHelper = DBHelper.getInstance(this)
+        users = dBHelper!!.allUsers
 
         val signup = Signup(login, email, password, passwordRepeat, users)
         if (signup.getUserCreated()) {
-            val user = ChatUser(login, "none", email, password,
-                resources.getIdentifier("blank_profile_picture_120.png", "drawable", this.packageName))
-            users.add(user)
+            dBHelper.addUser(login, email, password)
+            users = dBHelper.allUsers
 
-            val gsonUsersBuilder = GsonBuilder().setPrettyPrinting().create()
-            val jsonUsers: String = gsonUsersBuilder.toJson(users)
-            fileUsers.writeText(jsonUsers)
-
-            val gsonUserBuilder = GsonBuilder().setPrettyPrinting().create()
-            val jsonUser: String = gsonUserBuilder.toJson(user)
-            val fileUser = File(this.filesDir.path, "currentUser.json")
-            if (!fileUser.exists()) {
-                fileUser.createNewFile()
-            }
-            fileUser.writeText(jsonUser)
+            val myPreferences : SharedPreferences = androidx.preference.PreferenceManager
+                .getDefaultSharedPreferences(this)
+            val myEditor : SharedPreferences.Editor = myPreferences.edit()
+            myEditor.putString("Login", login)
+            myEditor.commit()
 
             Toast.makeText(this, "User $login created", Toast.LENGTH_SHORT).show()
             Log.w(logTag, "User $login created")

@@ -1,10 +1,8 @@
 package com.example.chatmessenger.fragment
 
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -17,17 +15,13 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.chatmessenger.R
 import com.example.chatmessenger.chat_user.ChatUser
+import com.example.chatmessenger.database.DBHelper
 import com.google.android.material.button.MaterialButton
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import org.apache.commons.io.IOUtils
 import java.io.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -39,11 +33,10 @@ class PreferencesFragment : Fragment() {
     private lateinit var phoneButton : MaterialButton
     private lateinit var emailButton : MaterialButton
     private lateinit var passwordButton : MaterialButton
-    private lateinit var fileUser :File
-    private lateinit var fileUsers :File
-    private lateinit var user : ChatUser
-    private lateinit var users : ArrayList<ChatUser>
-    private var imageUri : Uri? = null
+    private lateinit var login: String
+    private lateinit var users :ArrayList<ChatUser>
+    private var imageUri :Uri? = null
+    private var dBHelper :DBHelper? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,9 +45,6 @@ class PreferencesFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_preferences, container, false)
 
-        fileUser = File(context?.filesDir?.path , "currentUser.json")
-        fileUsers = File(context?.filesDir?.path , "users.json")
-
         nicknameButton = rootView.findViewById(R.id.nickname_button)
         avatarImage = rootView.findViewById(R.id.avatar_image)
         avatarButton = rootView.findViewById(R.id.avatar_button)
@@ -62,19 +52,25 @@ class PreferencesFragment : Fragment() {
         emailButton = rootView.findViewById(R.id.email_button)
         passwordButton = rootView.findViewById(R.id.password_button)
 
-        val gson = Gson()
-        user = gson.fromJson(FileReader(fileUser), ChatUser::class.java)
-        val arrayListChatUsersType = object : TypeToken<ArrayList<ChatUser>>() {}.type
-        users = gson.fromJson(FileReader(fileUsers), arrayListChatUsersType)
+        dBHelper = DBHelper.getInstance(context)
+        if (dBHelper != null) {
+            users = dBHelper!!.allUsers
+        }
+
+        val myPreferences : SharedPreferences = androidx.preference.PreferenceManager
+            .getDefaultSharedPreferences(requireContext())
+        this.login = myPreferences.getString("Login", "NoName")!!
+        val fileName = login.lowercase()
 
         val defaultPhoto = "blank_profile_picture_120"
-        val fileName = user.getLogin().lowercase()
+
+        val drawableIdentifier = context?.resources?.getIdentifier(fileName, "drawable", context?.packageName)
         val imgFile = File(context?.filesDir?.path, "$fileName.jpg")
         if (imgFile.exists()) {
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             avatarImage.setImageBitmap(myBitmap)
-        } else if (user.getPhotoResource() > 0) {
-            avatarImage.setImageResource(user.getPhotoResource())
+        } else if (drawableIdentifier != null && drawableIdentifier > 0) {
+            avatarImage.setImageResource(drawableIdentifier)
         } else {
             avatarImage.setImageResource(this.resources
                 .getIdentifier(defaultPhoto, "drawable", context?.packageName))
@@ -87,14 +83,7 @@ class PreferencesFragment : Fragment() {
                 showMessage("Wrong Nickname! Length of nickname has to be more than 2.")
                 return@setOnClickListener
             }
-            user.setNickname(newNickname)
-            for (index in users.indices) {
-                if (users[index].getLogin() == user.getLogin()) {
-                    users[index].setNickname(newNickname)
-                    break
-                }
-            }
-            if (writeInfo()) {
+            if (dBHelper!!.writeInfo(login, "nickname", newNickname)) {
                 showMessage()
             } else {
                 showMessage("An issue with saving updated info.")
@@ -109,14 +98,8 @@ class PreferencesFragment : Fragment() {
                 showMessage("Wrong phone number!")
                 return@setOnClickListener
             }
-            user.setPhone(newPhone)
-            for (index in users.indices) {
-                if (users[index].getLogin() == user.getLogin()) {
-                    users[index].setPhone(newPhone)
-                    break
-                }
-            }
-            if (writeInfo()) {
+
+            if (dBHelper!!.writeInfo(login, "phone", newPhone)) {
                 showMessage()
             } else {
                 showMessage("An issue with saving updated info.")
@@ -131,14 +114,7 @@ class PreferencesFragment : Fragment() {
                 showMessage("Wrong email!")
                 return@setOnClickListener
             }
-            user.setEmail(newEmail)
-            for (index in users.indices) {
-                if (users[index].getLogin() == user.getLogin()) {
-                    users[index].setEmail(newEmail)
-                    break
-                }
-            }
-            if (writeInfo()) {
+            if (dBHelper!!.writeInfo(login, "email", newEmail)) {
                 showMessage()
             } else {
                 showMessage("An issue with saving updated info.")
@@ -157,14 +133,7 @@ class PreferencesFragment : Fragment() {
                 showMessage("Old password is not correct or new passwords does not match.")
                 return@setOnClickListener
             }
-            user.setPassword(newPassword)
-            for (index in users.indices) {
-                if (users[index].getLogin() == user.getLogin()) {
-                    users[index].setPassword(newPassword)
-                    break
-                }
-            }
-            if (writeInfo()) {
+            if (dBHelper!!.writeInfo(login, "password", newPassword)) {
                 showMessage()
             } else {
                 showMessage("An issue with saving updated info.")
@@ -194,27 +163,29 @@ class PreferencesFragment : Fragment() {
         }
 
         avatarButton.setOnClickListener {
-            val drawable = avatarImage.drawable
-            var photoResource  = user.getPhotoResource()
-            if (photoResource == 0) {
-                photoResource = resources.getIdentifier(
-                "blank_profile_picture_120",
-                "drawable",
-                context?.packageName)
+            if (imageUri == null) {
+                Toast.makeText(context, "Nothing to change. Pick up a new image.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-            if (drawable.bytesEqualTo(ContextCompat.getDrawable(requireContext(), photoResource)) &&
-                    drawable.pixelsEqualTo(ContextCompat.getDrawable(requireContext(), photoResource))) {
+            val oldUri : Uri? = if (imgFile.exists()) {
+                Uri.fromFile(imgFile)
+            } else if (drawableIdentifier != null && drawableIdentifier > 0) {
+                Uri.parse("android.resource://com.example.chatmessenger/drawable/$fileName")
+            } else {
+                Uri.parse("android.resource://com.example.chatmessenger/drawable/$defaultPhoto")
+            }
+
+            if (imageUri == oldUri) {
                 Toast.makeText(context, "Nothing to change. Pick up a new image.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val newFileName = user.getLogin().lowercase()
             val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(imageUri?.let { it1 ->
                 context?.contentResolver?.getType(
                     it1
                 )
             })
-            val newFile = File(context?.filesDir?.absolutePath, "$newFileName.${extension}")
+            val newFile = File(context?.filesDir?.absolutePath, "$fileName.${extension}")
 
             var inputStream: InputStream? = null
             val byteStream = ByteArrayOutputStream()
@@ -227,9 +198,10 @@ class PreferencesFragment : Fragment() {
                 val bytes = byteStream.toByteArray()
 
                 fileOutputStream.write(bytes)
-                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, byteStream.size())                 //      Get a copied image
+//                val bitmap = BitmapFactory.decodeByteArray(bytes, 0, byteStream.size())
+                showMessage()
             } catch (e: Exception) {
-                Toast.makeText(context, "Failed to copy image", Toast.LENGTH_SHORT).show()
+                showMessage("Failed to copy image.")
             } finally {
                 inputStream?.close()
                 fileOutputStream?.close()
@@ -264,12 +236,15 @@ class PreferencesFragment : Fragment() {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    private fun passwordValidation(oldPassword: String, newPassword: String, newPasswordRepeat: String) :Boolean {
+    private fun passwordValidation(oldPassword: String, newPassword: String,
+                                   newPasswordRepeat: String) :Boolean {
         if (oldPassword.isNullOrBlank() || newPassword.isNullOrBlank() || newPasswordRepeat.isNullOrBlank()) {
             return false
         }
-        if (oldPassword != user.getPassword()) {
-            return false
+        for (i in users.indices) {
+            if (users[i].getLogin()==login && users[i].getPassword()!=dBHelper!!.md5(oldPassword)) {
+                return false
+            }
         }
         if (newPassword != newPasswordRepeat) {
             return false
@@ -277,22 +252,7 @@ class PreferencesFragment : Fragment() {
         return true
     }
 
-    private fun writeInfo() :Boolean {
-        return try {
-            val gsonUsersBuilder = GsonBuilder().setPrettyPrinting().create()
-            val jsonUsers: String = gsonUsersBuilder.toJson(users)
-            fileUsers.writeText(jsonUsers)
-
-            val gsonUserBuilder = GsonBuilder().setPrettyPrinting().create()
-            val jsonUser: String = gsonUserBuilder.toJson(user)
-            fileUser.writeText(jsonUser)
-            true
-        } catch (ex :java.lang.Exception) {
-            false
-        }
-    }
-
-    private fun showMessage(message: String = "An information about user ${user.getLogin()} is saved.") {
+    private fun showMessage(message: String = "An information about user $login is saved.") {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -309,51 +269,5 @@ class PreferencesFragment : Fragment() {
         }
         return Bitmap.createScaledBitmap(image, width, height, true)
     }
-
-    fun <T : Drawable> T.bytesEqualTo(t: T?) = toBitmap().bytesEqualTo(t?.toBitmap(), true)
-
-    fun <T : Drawable> T.pixelsEqualTo(t: T?) = toBitmap().pixelsEqualTo(t?.toBitmap(), true)
-
-    private fun Bitmap.bytesEqualTo(otherBitmap: Bitmap?, shouldRecycle: Boolean = false) = otherBitmap?.let { other ->
-        if (width == other.width && height == other.height) {
-            val res = toBytes().contentEquals(other.toBytes())
-            if (shouldRecycle) {
-                doRecycle().also { otherBitmap.doRecycle() }
-            }
-            res
-        } else false
-    } ?: kotlin.run { false }
-
-    private fun Bitmap.pixelsEqualTo(otherBitmap: Bitmap?, shouldRecycle: Boolean = false) = otherBitmap?.let { other ->
-        if (width == other.width && height == other.height) {
-            val res = Arrays.equals(toPixels(), other.toPixels())
-            if (shouldRecycle) {
-                doRecycle().also { otherBitmap.doRecycle() }
-            }
-            res
-        } else false
-    } ?: kotlin.run { false }
-
-    private fun Bitmap.doRecycle() {
-        if (!isRecycled) recycle()
-    }
-
-    private fun <T : Drawable> T.toBitmap(): Bitmap {
-        if (this is BitmapDrawable) return bitmap
-
-        val drawable: Drawable = this
-        val bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
-    }
-
-    private fun Bitmap.toBytes(): ByteArray = ByteArrayOutputStream().use { stream ->
-        compress(Bitmap.CompressFormat.JPEG, 100, stream)
-        stream.toByteArray()
-    }
-
-    private fun Bitmap.toPixels() = IntArray(width * height).apply { getPixels(this, 0, width, 0, 0, width, height) }
 
 }

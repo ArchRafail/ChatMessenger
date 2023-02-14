@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -16,6 +17,7 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.chatmessenger.database.DBHelper
 import com.example.chatmessenger.fragment.ChatFragment
 import com.example.chatmessenger.fragment.PreferencesFragment
 import com.example.chatmessenger.fragment.UsersFragment
@@ -132,6 +134,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
 
     override fun onButtonSelected(userID: String, messageStr: String) {
         showNotification(userID, messageStr)
+    }
+
+    override fun onDestroy() {
+        val dbHelper: DBHelper = DBHelper.getInstance(this)
+        val myPreferences : SharedPreferences = androidx.preference.PreferenceManager
+            .getDefaultSharedPreferences(this)
+        dbHelper.changeOnlineStatus(myPreferences.getString("Login", "NoName"), 0)
+        super.onDestroy()
     }
 
 }

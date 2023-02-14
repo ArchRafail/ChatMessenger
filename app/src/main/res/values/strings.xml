@@ -24,42 +24,6 @@
     <string name="password_repeat_description">User password repeat</string>
     <string name="login_info_text">Already have an account?</string>
 
-    #Users array
-    <string-array name="Users_list">
-        <item>Admin</item>
-        <item>User</item>
-        <item>Roman</item>
-        <item>Daddy</item>
-        <item>Julia</item>
-    </string-array>
-
-    #Phone array
-    <string-array name="Phone_list">
-        <item>+380970123456</item>
-        <item>+380951122334</item>
-        <item>+380983371711</item>
-        <item>+380992776875</item>
-        <item>+380965554444</item>
-    </string-array>
-
-    #Email array
-    <string-array name="Emails_list">
-        <item>admin@gmail.com</item>
-        <item>usr@post.ua</item>
-        <item>roman@gmail.com</item>
-        <item>dad@ukr.net</item>
-        <item>jul@masyanya.ua</item>
-    </string-array>
-
-    #Passwords array
-    <string-array name="Passwords_list">
-        <item>adm</item>
-        <item>1234</item>
-        <item>rom123</item>
-        <item>d1a2d3</item>
-        <item>juljul</item>
-    </string-array>
-
     #Dialog forgot password strings
     <string name="forgot_password_title">Restoring password</string>
     <string name="forgot_password_text">Enter the email below to recover Your password.</string>
@@ -76,6 +40,7 @@
     <string name="users_title">Users list</string>
     <string name="user_photo">User photo</string>
     <string name="user_nickname">User nickname</string>
+    <string name="user_status">Online</string>
     <string name="user_phone">User phone</string>
     <string name="user_email">User email</string>
 

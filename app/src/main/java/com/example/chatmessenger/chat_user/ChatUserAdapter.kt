@@ -15,29 +15,35 @@ import java.io.File
 class ChatUserAdapter(context: Context?, private val layout: Int, private val users: List<ChatUser>)
     :ArrayAdapter<ChatUser?>(context!!, layout, users) {
 
-    private val TAG = "ChatUserAdapter"
     private val inflater: LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = inflater.inflate(layout, parent, false)
         val pictureView = view.findViewById<ImageView>(R.id.user_photo)
         val nicknameView = view.findViewById<TextView>(R.id.user_nickname)
+        val onlineStatusView = view.findViewById<TextView>(R.id.user_online_status)
         val phoneView = view.findViewById<TextView>(R.id.user_phone)
         val emailView = view.findViewById<TextView>(R.id.user_email)
         val user = users[position]
         val defaultPhoto = "blank_profile_picture_120"
         val fileName = user.getLogin().lowercase()
+        val drawableIdentifier = context.resources.getIdentifier(fileName, "drawable", context.packageName)
         val imgFile = File(context.filesDir.path, "$fileName.jpg")
         if (imgFile.exists()) {
             val myBitmap = BitmapFactory.decodeFile(imgFile.absolutePath)
             pictureView.setImageBitmap(myBitmap)
-        } else if (user.getPhotoResource() > 0) {
-            pictureView.setImageResource(user.getPhotoResource())
+        } else if (drawableIdentifier > 0) {
+            pictureView.setImageResource(drawableIdentifier)
         } else {
             pictureView.setImageResource(context.resources
                 .getIdentifier(defaultPhoto, "drawable", context.packageName))
         }
         nicknameView.text = user.getNickname()
+        if (user.getIsOnline()) {
+            onlineStatusView.text = context.resources.getString(R.string.user_status)
+        } else {
+            onlineStatusView.text = ""
+        }
         phoneView.text = user.getPhone()
         emailView.text = user.getEmail()
 
