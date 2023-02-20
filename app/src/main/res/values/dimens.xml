@@ -32,6 +32,12 @@
 
     <dimen name="main_button_marginX">10dp</dimen>
     <dimen name="main_button_marginX_small">5dp</dimen>
+    <dimen name="main_button_text_height">9sp</dimen>
+    <dimen name="main_button_corner">20dp</dimen>
+    <dimen name="main_button_icon_size">35dp</dimen>
+    <dimen name="main_button_icon_padding">2dp</dimen>
+    <dimen name="main_button_last_icon_padding">-2dp</dimen>
+    <dimen name="main_button_stroke_width">1dp</dimen>
 
     <dimen name="users_fragment_padding">15dp</dimen>
     <dimen name="users_fragment_paddingX">15dp</dimen>
@@ -51,6 +57,11 @@
     <dimen name="chat_fragment_logo_dimension">30dp</dimen>
     <dimen name="chat_fragment_logo_margin">4dp</dimen>
     <dimen name="chat_fragment_send_btn_margin">3dp</dimen>
+    <dimen name="chat_fragment_send_button_width">65dp</dimen>
+    <dimen name="chat_fragment_send_button_height">60dp</dimen>
+    <dimen name="chat_fragment_send_button_inset_image">0dp</dimen>
+    <dimen name="chat_fragment_send_button_corner">30dp</dimen>
+    <dimen name="chat_fragment_send_button_icon_padding">4dp</dimen>
     <dimen name="chat_list_padding">15dp</dimen>
     <dimen name="chat_list_photo_dimension">60dp</dimen>
     <dimen name="chat_list_text_padding_left">16dp</dimen>
@@ -59,10 +70,16 @@
     <dimen name="chat_list_message_text_height">15sp</dimen>
     <dimen name="chat_list_time_text_height">13sp</dimen>
     <dimen name="chat_list_time_padding">10dp</dimen>
+    <dimen name="chat_message_text_height">15sp</dimen>
 
     <dimen name="pref_fragment_padding">10dp</dimen>
     <dimen name="pref_fragment_title_text_height">18sp</dimen>
     <dimen name="pref_fragment_title_padding">5dp</dimen>
+    <dimen name="pref_fragment_button_corner">20dp</dimen>
+    <dimen name="pref_fragment_button_text_height">13sp</dimen>
+    <dimen name="pref_fragment_button_icon_padding">2dp</dimen>
+    <dimen name="pref_fragment_button_icon_size">30dp</dimen>
+    <dimen name="pref_fragment_button_stroke_width">1dp</dimen>
     <dimen name="pref_fragment_logo_dimension">30dp</dimen>
     <dimen name="pref_fragment_logo_margin">4dp</dimen>
     <dimen name="pref_fragment_content_paddingY">15dp</dimen>
@@ -73,5 +90,14 @@
     <dimen name="pref_fragment_avatar_dimension">130dp</dimen>
     <dimen name="pref_fragment_last_button_marginY">2dp</dimen>
     <dimen name="pref_fragment_passwords_paddingX">5dp</dimen>
+
+    <dimen name="info_fragment_padding">10dp</dimen>
+    <dimen name="info_fragment_logo_dimension">30dp</dimen>
+    <dimen name="info_fragment_logo_margin">4dp</dimen>
+    <dimen name="info_fragment_title_text_height">18sp</dimen>
+    <dimen name="info_fragment_title_padding">5dp</dimen>
+    <dimen name="info_fragment_content_paddingY">15dp</dimen>
+    <dimen name="info_fragment_text_height">15sp</dimen>
+    <dimen name="info_fragment_text_marginY">5dp</dimen>
 
 </resources>

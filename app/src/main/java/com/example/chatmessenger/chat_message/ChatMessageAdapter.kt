@@ -32,7 +32,7 @@ class ChatMessageAdapter(context: Context?, private val layout: Int, private val
 
         var user : ChatUser? = null
         for (i in users.indices) {
-            if (users[i].getLogin() == message.getLogin()) {
+            if (users[i].getLogin() == message.login) {
                 user = users[i]
             }
         }
@@ -51,8 +51,8 @@ class ChatMessageAdapter(context: Context?, private val layout: Int, private val
                 .getIdentifier(defaultPhoto, "drawable", context.packageName))
         }
         nicknameView.text = user?.getNickname()
-        messageView.text = message.getMessage()
-        timeView.text = message.getTime()
+        messageView.text = message.message
+        timeView.text = message.time
 
         return view
     }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragments_background"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -14,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </FrameLayout>
 
     <LinearLayout
@@ -34,7 +34,18 @@
             android:layout_marginStart="@dimen/main_button_marginX"
             android:layout_marginEnd="@dimen/main_button_marginX_small"
             android:layout_weight="1"
-            android:text="@string/users_button" />
+            android:backgroundTint="@color/fragments_background"
+            android:text="@string/users_button"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_button_text_height"
+            app:cornerRadius="@dimen/main_button_corner"
+            app:icon="@drawable/users_40"
+            app:iconGravity="start"
+            app:iconPadding="@dimen/main_button_icon_padding"
+            app:iconSize="@dimen/main_button_icon_size"
+            app:iconTint="@null"
+            app:strokeColor="@color/window_background"
+            app:strokeWidth="@dimen/main_button_stroke_width" />
 
         <Button
             android:id="@+id/chat_button"
@@ -43,15 +54,54 @@
             android:layout_marginStart="@dimen/main_button_marginX_small"
             android:layout_marginEnd="@dimen/main_button_marginX_small"
             android:layout_weight="1"
-            android:text="@string/chat_button" />
+            android:backgroundTint="@color/fragments_background"
+            android:text="@string/chat_button"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_button_text_height"
+            app:cornerRadius="@dimen/main_button_corner"
+            app:icon="@drawable/communication_40"
+            app:iconGravity="start"
+            app:iconPadding="@dimen/main_button_icon_padding"
+            app:iconSize="@dimen/main_button_icon_size"
+            app:iconTint="@null"
+            app:strokeColor="@color/window_background"
+            app:strokeWidth="@dimen/main_button_stroke_width" />
 
         <Button
             android:id="@+id/preferences_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/main_button_marginX_small"
-            android:layout_marginEnd="@dimen/main_button_marginX"
+            android:layout_marginEnd="@dimen/main_button_marginX_small"
             android:layout_weight="1"
-            android:text="@string/preference_button" />
+            android:backgroundTint="@color/fragments_background"
+            android:text="@string/preference_button"
+            android:textColor="@color/black"
+            android:textSize="@dimen/main_button_text_height"
+            app:cornerRadius="@dimen/main_button_corner"
+            app:icon="@drawable/services_40"
+            app:iconGravity="start"
+            app:iconPadding="@dimen/main_button_icon_padding"
+            app:iconSize="@dimen/main_button_icon_size"
+            app:iconTint="@null"
+            app:strokeColor="@color/window_background"
+            app:strokeWidth="@dimen/main_button_stroke_width" />
+
+        <Button
+            android:id="@+id/information_button"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/main_button_marginX_small"
+            android:layout_marginEnd="@dimen/main_button_marginX"
+            android:layout_weight="0"
+            android:backgroundTint="@color/fragments_background"
+            app:cornerRadius="@dimen/main_button_corner"
+            app:icon="@drawable/information_40"
+            app:iconGravity="textStart"
+            app:iconPadding="@dimen/main_button_last_icon_padding"
+            app:iconSize="@dimen/main_button_icon_size"
+            app:iconTint="@null"
+            app:strokeColor="@color/window_background"
+            app:strokeWidth="@dimen/main_button_stroke_width" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

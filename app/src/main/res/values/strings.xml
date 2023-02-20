@@ -50,6 +50,7 @@
     <string name="chat_photo">User photo</string>
     <string name="chat_nickname">User nickname</string>
     <string name="chat_message">Message</string>
+    <string name="chat_message_hint">Write message here</string>
     <string name="chat_time">Time</string>
 
     #Preferences fragment
@@ -64,5 +65,13 @@
     <string name="pref_old_password_hint">Old password</string>
     <string name="pref_new_password_hint">New password</string>
     <string name="pref_repeat_new_password_hint">Repeat new password</string>
+
+    #Info fragment
+    <string name="info_title">Information</string>
+    <string name="info_text1">Android application was designed by Roman Bylo, the student of IT STEP Academy.</string>
+    <string name="info_text2">The application designed as a course project of &quot;Developing mobile applications for Android Platform&quot; subject.</string>
+    <string name="info_text3">Application &quot;ChatMessenger&quot; allow to write messages between users that are in list of Users tab in application window.</string>
+    <string name="info_bottom_copyright">©Roman Bylo, IT STEP Academy</string>
+    <string name="info_bottom_date">15.02.2023</string>
 
 </resources>

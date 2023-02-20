@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragments_background"
     android:orientation="vertical"
     android:padding="@dimen/pref_fragment_padding">
 
@@ -23,7 +24,9 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/pref_fragment_logo_margin"
             android:layout_weight="0"
-            app:srcCompat="@drawable/logo_chat" />
+            android:contentDescription="@string/pref_title"
+            app:srcCompat="@drawable/logo_chat"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:layout_width="match_parent"
@@ -50,7 +53,8 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_nickname_label_text" />
+            android:text="@string/pref_nickname_label_text"
+            tools:ignore="TextContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,7 +74,19 @@
                 android:layout_width="@dimen/pref_fragment_button_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="@string/pref_change_button_text" />
+                android:text="@string/pref_change_button_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/pref_fragment_button_text_height"
+                app:backgroundTint="@color/fragments_background"
+                app:cornerRadius="@dimen/pref_fragment_button_corner"
+                app:icon="@drawable/change_48"
+                app:iconGravity="start"
+                app:iconPadding="@dimen/pref_fragment_button_icon_padding"
+                app:iconSize="@dimen/pref_fragment_button_icon_size"
+                app:iconTint="@null"
+                app:strokeColor="@color/window_background"
+                app:strokeWidth="@dimen/pref_fragment_button_stroke_width"
+                tools:ignore="DuplicateSpeakableTextCheck" />
         </LinearLayout>
 
         <View
@@ -78,13 +94,14 @@
             android:layout_height="@dimen/pref_fragment_line_height"
             android:layout_marginTop="@dimen/pref_fragment_line_marginY"
             android:layout_marginBottom="@dimen/pref_fragment_line_marginY"
-            android:background="#c0c0c0" />
+            android:background="@color/pref_fragment_divider" />
 
         <TextView
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_avatar_label_text" />
+            android:text="@string/pref_avatar_label_text"
+            tools:ignore="TextContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +113,7 @@
                 android:layout_width="@dimen/pref_fragment_avatar_dimension"
                 android:layout_height="@dimen/pref_fragment_avatar_dimension"
                 android:layout_weight="0"
-                app:srcCompat="@drawable/blank_profile_picture_120"
+                android:background="@drawable/border_with_backgroud"
                 android:contentDescription="@string/pref_avatar_content_description" />
 
             <TextView
@@ -110,7 +127,18 @@
                 android:layout_width="@dimen/pref_fragment_button_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|right"
-                android:text="@string/pref_change_button_text" />
+                android:text="@string/pref_change_button_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/pref_fragment_button_text_height"
+                app:backgroundTint="@color/fragments_background"
+                app:cornerRadius="@dimen/pref_fragment_button_corner"
+                app:icon="@drawable/change_48"
+                app:iconGravity="start"
+                app:iconPadding="@dimen/pref_fragment_button_icon_padding"
+                app:iconSize="@dimen/pref_fragment_button_icon_size"
+                app:iconTint="@null"
+                app:strokeColor="@color/window_background"
+                app:strokeWidth="@dimen/pref_fragment_button_stroke_width" />
 
         </LinearLayout>
 
@@ -119,13 +147,14 @@
             android:layout_height="@dimen/pref_fragment_line_height"
             android:layout_marginTop="@dimen/pref_fragment_line_marginY"
             android:layout_marginBottom="@dimen/pref_fragment_line_marginY"
-            android:background="#c0c0c0" />
+            android:background="@color/pref_fragment_divider" />
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_phone_label_text" />
+            android:text="@string/pref_phone_label_text"
+            tools:ignore="TextContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -145,7 +174,18 @@
                 android:layout_width="@dimen/pref_fragment_button_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="@string/pref_change_button_text" />
+                android:text="@string/pref_change_button_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/pref_fragment_button_text_height"
+                app:backgroundTint="@color/fragments_background"
+                app:cornerRadius="@dimen/pref_fragment_button_corner"
+                app:icon="@drawable/change_48"
+                app:iconGravity="start"
+                app:iconPadding="@dimen/pref_fragment_button_icon_padding"
+                app:iconSize="@dimen/pref_fragment_button_icon_size"
+                app:iconTint="@null"
+                app:strokeColor="@color/window_background"
+                app:strokeWidth="@dimen/pref_fragment_button_stroke_width" />
         </LinearLayout>
 
         <View
@@ -153,13 +193,14 @@
             android:layout_height="@dimen/pref_fragment_line_height"
             android:layout_marginTop="@dimen/pref_fragment_line_marginY"
             android:layout_marginBottom="@dimen/pref_fragment_line_marginY"
-            android:background="#c0c0c0" />
+            android:background="@color/pref_fragment_divider" />
 
         <TextView
             android:id="@+id/textView10"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_email_label_text" />
+            android:text="@string/pref_email_label_text"
+            tools:ignore="TextContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -179,7 +220,18 @@
                 android:layout_width="@dimen/pref_fragment_button_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:text="@string/pref_change_button_text" />
+                android:text="@string/pref_change_button_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/pref_fragment_button_text_height"
+                app:backgroundTint="@color/fragments_background"
+                app:cornerRadius="@dimen/pref_fragment_button_corner"
+                app:icon="@drawable/change_48"
+                app:iconGravity="start"
+                app:iconPadding="@dimen/pref_fragment_button_icon_padding"
+                app:iconSize="@dimen/pref_fragment_button_icon_size"
+                app:iconTint="@null"
+                app:strokeColor="@color/window_background"
+                app:strokeWidth="@dimen/pref_fragment_button_stroke_width" />
         </LinearLayout>
 
         <View
@@ -187,13 +239,14 @@
             android:layout_height="@dimen/pref_fragment_line_height"
             android:layout_marginTop="@dimen/pref_fragment_line_marginY"
             android:layout_marginBottom="@dimen/pref_fragment_line_marginY"
-            android:background="#c0c0c0" />
+            android:background="@color/pref_fragment_divider" />
 
         <TextView
             android:id="@+id/textView8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/pref_password_label_text" />
+            android:text="@string/pref_password_label_text"
+            tools:ignore="TextContrastCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -210,40 +263,52 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@android:color/transparent"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/old_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/fragments_background"
                         android:hint="@string/pref_old_password_hint"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/message_hint_text"
+                        tools:ignore="TextContrastCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@android:color/transparent"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/new_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/fragments_background"
                         android:hint="@string/pref_new_password_hint"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/message_hint_text"
+                        tools:ignore="TextContrastCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@android:color/transparent"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/new_password_repeat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@color/fragments_background"
                         android:hint="@string/pref_repeat_new_password_hint"
-                        android:inputType="textPassword" />
+                        android:inputType="textPassword"
+                        android:textColorHint="@color/message_hint_text"
+                        tools:ignore="TextContrastCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -255,7 +320,18 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="@dimen/pref_fragment_last_button_marginY"
                 android:layout_weight="0"
-                android:text="@string/pref_change_button_text" />
+                android:text="@string/pref_change_button_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/pref_fragment_button_text_height"
+                app:backgroundTint="@color/fragments_background"
+                app:cornerRadius="@dimen/pref_fragment_button_corner"
+                app:icon="@drawable/change_48"
+                app:iconGravity="start"
+                app:iconPadding="@dimen/pref_fragment_button_icon_padding"
+                app:iconSize="@dimen/pref_fragment_button_icon_size"
+                app:iconTint="@null"
+                app:strokeColor="@color/window_background"
+                app:strokeWidth="@dimen/pref_fragment_button_stroke_width" />
 
         </LinearLayout>
 

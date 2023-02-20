@@ -4,9 +4,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.content.*
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -17,10 +15,14 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.chatmessenger.chat_message.ChatMessage
+import com.example.chatmessenger.chat_user.ChatUser
 import com.example.chatmessenger.database.DBHelper
 import com.example.chatmessenger.fragment.ChatFragment
+import com.example.chatmessenger.fragment.InfoFragment
 import com.example.chatmessenger.fragment.PreferencesFragment
 import com.example.chatmessenger.fragment.UsersFragment
+import com.example.chatmessenger.service.MessageService
 import com.google.android.material.button.MaterialButton
 
 
@@ -31,15 +33,65 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
     private lateinit var usersButton: MaterialButton
     private lateinit var chatButton: MaterialButton
     private lateinit var preferencesButton: MaterialButton
+    private lateinit var infoButton: MaterialButton
 
     private var currentFragment: Fragment? = null
     private var usersFragment: UsersFragment? = null
     private var chatFragment: ChatFragment? = null
     private var preferencesFragment: PreferencesFragment? = null
+    private var infoFragment: InfoFragment? = null
+
+    private lateinit var dbHelper: DBHelper
+
+    private var br: BroadcastReceiver? = null
+
+    companion object {
+        const val BROADCAST_ACTION: String = "com.example.chatmessenger.servicebackbroadcast"
+        const val STATUS_START = 100
+        const val STATUS_FINISH = 200
+        var PARAM_STATUS = "status"
+        var PARAM_MESSAGE = "message"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        dbHelper = DBHelper.getInstance(this)
+
+        startService(Intent(this, MessageService::class.java))
+
+        br = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val status = intent.getIntExtra(PARAM_STATUS, 0)
+
+                if (status == STATUS_START) {
+                    Log.d(tag, "onReceive: status = $status")
+                }
+
+                if (status == STATUS_FINISH) {
+                    val message = intent.serializable<ChatMessage>(PARAM_MESSAGE)
+                    Log.d(tag, "onReceive: status = $status message= ${message!!.message}")
+                    dbHelper.addMessage(message.login, message.message, message.time)
+                    var user: ChatUser? = null
+                    val users : ArrayList<ChatUser> = dbHelper.allUsers
+                    for (i in users.indices) {
+                        if (users[i].getLogin() == message.login) {
+                            user = users[i]
+                            break
+                        }
+                    }
+                    onButtonSelected(user!!.getNickname(), message.message)
+                    if (currentFragment != null && currentFragment == chatFragment) {
+                        val fragmentManager: FragmentManager = supportFragmentManager
+                        fragmentManager.beginTransaction().detach(currentFragment!!).commit()
+                        fragmentManager.beginTransaction().attach(currentFragment!!).commit()
+                    }
+                }
+            }
+        }
+        val intFilt = IntentFilter(BROADCAST_ACTION)
+        registerReceiver(br, intFilt)
 
         usersButton = findViewById(R.id.users_button)
         usersButton.setOnClickListener(this)
@@ -50,12 +102,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
         preferencesButton = findViewById(R.id.preferences_button)
         preferencesButton.setOnClickListener(this)
 
+        infoButton = findViewById(R.id.information_button)
+        infoButton.setOnClickListener(this)
+
         val fragmentManager = supportFragmentManager
 
         if (mIsDynamic) {
             usersFragment = UsersFragment()
             chatFragment = ChatFragment()
             preferencesFragment = PreferencesFragment()
+            infoFragment = InfoFragment()
 
             val ft = fragmentManager.beginTransaction()
             ft.add(R.id.container, chatFragment!!, "")
@@ -72,6 +128,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
             usersButton ->  usersFragment
             chatButton -> chatFragment
             preferencesButton -> preferencesFragment
+            infoButton -> infoFragment
             else -> null
         }
 
@@ -132,8 +189,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
         nm.notify(0, notification)
     }
 
-    override fun onButtonSelected(userID: String, messageStr: String) {
-        showNotification(userID, messageStr)
+    override fun onButtonSelected(userName: String, messageStr: String) {
+        showNotification(userName, messageStr)
     }
 
     override fun onDestroy() {
@@ -141,7 +198,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
         val myPreferences : SharedPreferences = androidx.preference.PreferenceManager
             .getDefaultSharedPreferences(this)
         dbHelper.changeOnlineStatus(myPreferences.getString("Login", "NoName"), 0)
+        stopService(Intent(this, MessageService::class.java))
+        this.unregisterReceiver(br!!)
         super.onDestroy()
     }
 
+
+    // serializable for bundle
+    inline fun <reified T : java.io.Serializable> Bundle.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializable(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializable(key) as? T
+    }
+
+    // serializable for intent
+    inline fun <reified T : java.io.Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
+    }
 }

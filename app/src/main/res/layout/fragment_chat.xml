@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/fragments_background"
     android:orientation="vertical"
     android:padding="@dimen/chat_fragment_padding">
 
@@ -23,7 +24,9 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/chat_fragment_logo_margin"
             android:layout_weight="0"
-            app:srcCompat="@drawable/logo_chat" />
+            android:contentDescription="@string/chat_title"
+            app:srcCompat="@drawable/logo_chat"
+            tools:ignore="ImageContrastCheck" />
 
         <TextView
             android:layout_width="match_parent"
@@ -51,6 +54,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,24 +62,43 @@
 
         <EditText
             android:id="@+id/message_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:minLines="2"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/sendChatButton"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_margin="@dimen/chat_fragment_send_btn_margin"
-            android:background="#7E03A9F4"
-            android:text="@string/chat_send_button" />
+            android:layout_weight="1"
+            android:gravity="bottom|start"
+            android:hint="@string/chat_message_hint"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:minLines="2"
+            android:textColorHint="@color/message_hint_text"
+            android:textSize="@dimen/chat_message_text_height"
+            tools:ignore="SpeakableTextPresentCheck,TextContrastCheck" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sendChatButton"
+                android:layout_width="@dimen/chat_fragment_send_button_width"
+                android:layout_height="@dimen/chat_fragment_send_button_height"
+                android:layout_gravity="bottom"
+                android:contentDescription="@string/chat_send_button"
+                android:insetTop="@dimen/chat_fragment_send_button_inset_image"
+                android:insetBottom="@dimen/chat_fragment_send_button_inset_image"
+                app:backgroundTint="@color/fragments_background"
+                app:cornerRadius="@dimen/chat_fragment_send_button_corner"
+                app:icon="@drawable/send_50"
+                app:iconGravity="textEnd"
+                app:iconPadding="@dimen/chat_fragment_send_button_icon_padding"
+                app:iconTint="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </LinearLayout>
 
 
