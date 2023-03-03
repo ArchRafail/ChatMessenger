@@ -181,9 +181,7 @@ class PreferencesFragment : Fragment() {
             }
 
             val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(imageUri?.let { it1 ->
-                context?.contentResolver?.getType(
-                    it1
-                )
+                context?.contentResolver?.getType(it1)
             })
             val newFile = File(context?.filesDir?.absolutePath, "$fileName.${extension}")
 

@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 
 import com.example.chatmessenger.chat_message.ChatMessage;
 import com.example.chatmessenger.chat_user.ChatUser;
+import com.example.chatmessenger.request.PostMessage;
+import com.example.chatmessenger.request.PostUser;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -35,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String KEY_PASSWORD_MD5 = "passwordMD5";
     public static final String KEY_IS_ONLINE = "isOnline";
 
-    public static final String TABLE_MESSAGES = "daddyMessages";
+    public static final String TABLE_MESSAGES = "messages";
     public static final String KEY_MESSAGE_ID = "_id";
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_TIME = "time";
@@ -266,6 +268,24 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_PASSWORD_MD5, md5(password));
         contentValues.put(KEY_IS_ONLINE, 1);
         database.insert(TABLE_USERS, null, contentValues);
+
+        new PostUser().execute(login, login, null, email, password, md5(password), "1");
+    }
+
+    public void updateAllUsers(ArrayList<ChatUser> users) throws NoSuchAlgorithmException {
+        SQLiteDatabase database = dBHelper.getWritableDatabase();
+        database.execSQL("delete from "+ TABLE_USERS);
+        for (ChatUser user: users) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(KEY_LOGIN, user.getLogin());
+            contentValues.put(KEY_NICKNAME, user.getNickname());
+            contentValues.put(KEY_PHONE, user.getPhone());
+            contentValues.put(KEY_EMAIL, user.getEmail());
+            contentValues.put(KEY_PASSWORD, user.getPassword());
+            contentValues.put(KEY_PASSWORD_MD5, md5(user.getPassword()));
+            contentValues.put(KEY_IS_ONLINE, user.isOnline());
+            database.insert(TABLE_USERS, null, contentValues);
+        }
     }
 
     public void changeOnlineStatus(String login, int isOnline) {
@@ -338,6 +358,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(KEY_TIME, time);
         contentValues.put(KEY_ID_USER, userID);
         database.insert(TABLE_MESSAGES, null, contentValues);
+
+        new PostMessage().execute(login, message, time);
     }
 
     private Boolean convertIntToBoolean(int number) {

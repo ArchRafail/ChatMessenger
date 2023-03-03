@@ -22,7 +22,7 @@ import com.example.chatmessenger.fragment.ChatFragment
 import com.example.chatmessenger.fragment.InfoFragment
 import com.example.chatmessenger.fragment.PreferencesFragment
 import com.example.chatmessenger.fragment.UsersFragment
-import com.example.chatmessenger.service.MessageService
+import com.example.chatmessenger.service.UserMessageService
 import com.google.android.material.button.MaterialButton
 
 
@@ -49,7 +49,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
         const val BROADCAST_ACTION: String = "com.example.chatmessenger.servicebackbroadcast"
         const val STATUS_START = 100
         const val STATUS_FINISH = 200
+        const val TASK_USER = 1
+        const val TASK_MESSAGE = 2
         var PARAM_STATUS = "status"
+        var PARAM_TASK = "task"
+        var PARAM_USERS = "users"
         var PARAM_MESSAGE = "message"
     }
 
@@ -59,34 +63,53 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
 
         dbHelper = DBHelper.getInstance(this)
 
-        startService(Intent(this, MessageService::class.java))
+        startService(Intent(this, UserMessageService::class.java))
 
         br = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 val status = intent.getIntExtra(PARAM_STATUS, 0)
+                val task = intent.getIntExtra(PARAM_TASK, 0)
 
                 if (status == STATUS_START) {
                     Log.d(tag, "onReceive: status = $status")
+                    Log.d(tag, "workOn: task = $task")
                 }
 
                 if (status == STATUS_FINISH) {
-                    val message = intent.serializable<ChatMessage>(PARAM_MESSAGE)
-                    Log.d(tag, "onReceive: status = $status message= ${message!!.message}")
-                    dbHelper.addMessage(message.login, message.message, message.time)
-                    var user: ChatUser? = null
-                    val users : ArrayList<ChatUser> = dbHelper.allUsers
-                    for (i in users.indices) {
-                        if (users[i].getLogin() == message.login) {
-                            user = users[i]
-                            break
+                    when (task) {
+                        1 -> {
+                            val users = intent.serializable<ArrayList<ChatUser>>(PARAM_USERS)
+                            Log.d(tag, "onReceive: status = $status")
+                            for (i in users!!.indices) {
+                                Log.d(tag, "user= ${users[i].login}")
+                            }
+                            if (currentFragment != null && currentFragment == usersFragment) {
+                                val fragmentManager: FragmentManager = supportFragmentManager
+                                fragmentManager.beginTransaction().detach(currentFragment!!).commit()
+                                fragmentManager.beginTransaction().attach(currentFragment!!).commit()
+                            }
+                        }
+                        2 -> {
+                            val message = intent.serializable<ChatMessage>(PARAM_MESSAGE)
+                            Log.d(tag, "onReceive: status = $status")
+                            Log.d(tag, "message= ${message!!.message}")
+                            var user: ChatUser? = null
+                            val users : ArrayList<ChatUser> = dbHelper.allUsers
+                            for (i in users.indices) {
+                                if (users[i].login == message.login) {
+                                    user = users[i]
+                                    break
+                                }
+                            }
+                            onButtonSelected(user!!.nickname, message.message)
+                            if (currentFragment != null && currentFragment == chatFragment) {
+                                val fragmentManager: FragmentManager = supportFragmentManager
+                                fragmentManager.beginTransaction().detach(currentFragment!!).commit()
+                                fragmentManager.beginTransaction().attach(currentFragment!!).commit()
+                            }
                         }
                     }
-                    onButtonSelected(user!!.getNickname(), message.message)
-                    if (currentFragment != null && currentFragment == chatFragment) {
-                        val fragmentManager: FragmentManager = supportFragmentManager
-                        fragmentManager.beginTransaction().detach(currentFragment!!).commit()
-                        fragmentManager.beginTransaction().attach(currentFragment!!).commit()
-                    }
+
                 }
             }
         }
@@ -198,7 +221,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, ChatFragment.OnS
         val myPreferences : SharedPreferences = androidx.preference.PreferenceManager
             .getDefaultSharedPreferences(this)
         dbHelper.changeOnlineStatus(myPreferences.getString("Login", "NoName"), 0)
-        stopService(Intent(this, MessageService::class.java))
+        stopService(Intent(this, UserMessageService::class.java))
         this.unregisterReceiver(br!!)
         super.onDestroy()
     }
